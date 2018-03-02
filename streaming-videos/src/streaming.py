@@ -132,7 +132,7 @@ def solve_by_local_search(cache_importance, latencies, requests, video_sizes, ca
     current_score = score(latencies, requests, allocation)
     num_mutation_steps = 10000
     progress_printer = utils.ProgressPrinter(num_mutation_steps)
-    for i in range(num_mutation_steps+1):
+    for i in range(num_mutation_steps):
         rollback_action = mutate(allocation, len(video_sizes))
         if is_allocation_valid(video_sizes, cache_size, num_caches, allocation):
             mutation_score = score(latencies, requests, allocation)
