@@ -98,7 +98,9 @@ def to_string(slices):
 
 
 if __name__ == '__main__':
-    instance = 'medium'
-    p, L, H = utils.read_input(instance, get_pizza)
-    slices = solve_greedy(p, L, H)
-    utils.write_output(instance, to_string(slices))
+    instances = ['example', 'small', 'medium', 'big']
+    for instance in instances:
+        print(f'\n\033[95msolving instance {instance}:\033[0m')
+        p, L, H = utils.read_input(instance, get_pizza)
+        slices = solve_greedy(p, L, H)
+        utils.write_output(instance, to_string(slices))

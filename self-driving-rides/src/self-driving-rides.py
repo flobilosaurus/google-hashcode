@@ -84,6 +84,7 @@ def get_scored_rides(cur_pos, cur_time, bonus, rides, score_function):
     scored_rides = [(ride, score_function(ride, bonus, cur_pos, cur_time)) for ride in rides]
     return sorted(scored_rides, key=lambda i: i[1], reverse=True)
 
+import math
 
 def get_greedy_solution(num_vehicles, rides, bonus, num_steps):
     remaining_rides = copy.deepcopy(rides)
@@ -92,7 +93,7 @@ def get_greedy_solution(num_vehicles, rides, bonus, num_steps):
     cur_pos = {v: Point(0,0) for v in vehicle_to_rides}
     next_steps_busy = {v: 0 for v in vehicle_to_rides}
 
-    for cur_step in range(num_steps):
+    for cur_step in range(num_steps+1):
         # if possible assign new ride
         for v in vehicle_to_rides:
             if next_steps_busy[v] <= 0: # not busy
@@ -112,6 +113,8 @@ def get_greedy_solution(num_vehicles, rides, bonus, num_steps):
         # move vehicles
         for v in vehicle_to_rides:
             next_steps_busy[v] -= 1
+
+        # print progress online ten times, expensive because of get_score
         if cur_step % (num_steps // 10) == 0:
             progress_printer.print(cur_step, get_score(vehicle_to_rides, bonus, num_steps))
 

@@ -1,3 +1,5 @@
+import sys
+
 def read_input(instance, parse_function):
     f = open('./input/' + instance + '.in', 'r')
     content = f.readlines()
@@ -22,13 +24,14 @@ class ProgressPrinter():
         self.ENDC = '\033[0m'
 
     def print(self, count, current_score):
-        if count % (self.total // 10) == 0:
+        if count % (self.total // min(self.total, 10)) == 0:
             filled_len = self.get_filled_length(count)
             percents = self.get_percents(count)
             bar = self.get_bar(filled_len)
 
             score_string = self.get_score_string(current_score)
-            print(f'{bar} {format(percents, "2.0f")} %\t {score_string}\r')
+            sys.stdout.write(f'\r{bar} {format(percents, "2.0f")} %\t {score_string}')
+            sys.stdout.flush()
 
             self.last_score = current_score
 

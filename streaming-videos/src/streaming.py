@@ -130,7 +130,7 @@ def add(allocation, num_videos):
 def solve_by_local_search(cache_importance, latencies, requests, video_sizes, cache_size, num_caches):
     allocation = get_initial_allocation(cache_importance, video_sizes, num_caches, cache_size)
     current_score = score(latencies, requests, allocation)
-    num_mutation_steps = 10000
+    num_mutation_steps = 100000
     progress_printer = utils.ProgressPrinter(num_mutation_steps)
     for i in range(num_mutation_steps):
         rollback_action = mutate(allocation, len(video_sizes))
@@ -169,8 +169,11 @@ def to_string(allocation):
 
 
 if __name__ == '__main__':
-    instance = 'example'
-    latencies, requests, video_sizes, cache_size, num_caches = utils.read_input(instance, get_input)
-    cache_importance = get_cache_importance(latencies, requests, video_sizes, num_caches)
-    allocation = solve_by_local_search(cache_importance, latencies, requests, video_sizes, cache_size, num_caches)
-    utils.write_output(instance, to_string(allocation))
+    instances = ['example', 'me_at_the_zoo', 'videos_worth_spreading', 'trending_today', 'kittens']
+
+    for instance in instances:
+        print(f'\n\033[95msolving instance {instance}:\033[0m')
+        latencies, requests, video_sizes, cache_size, num_caches = utils.read_input(instance, get_input)
+        cache_importance = get_cache_importance(latencies, requests, video_sizes, num_caches)
+        allocation = solve_by_local_search(cache_importance, latencies, requests, video_sizes, cache_size, num_caches)
+        utils.write_output(instance, to_string(allocation))
